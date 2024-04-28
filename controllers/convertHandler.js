@@ -1,13 +1,17 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
-    let result;
-    
+    let result = input
+      .replace("gal", "")
+      .replace("km", "")
+      .replace("lbs", "")
+      .replace("kg", "");
     return result;
   };
   
   this.getUnit = function(input) {
-    let result;
+    let number = this.getNum(input);
+    let result = input.replace(number, "");
     
     return result;
   };
