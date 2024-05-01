@@ -25,7 +25,7 @@ function ConvertHandler() {
   
   this.getUnit = function(input) {
     let number = this.getNum(input);
-    let result = input.replace(number, "");
+    let result = input.toLowerCase().replace(number, "");
     if (!["gal", "l", "lbs", "kg", "km", "mi"].includes(result)) {
       throw new Error("Unit not allowed")
     }
@@ -72,18 +72,19 @@ function ConvertHandler() {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
+    let result = null;
     if (initUnit == "gal") {
-      return initNum * galToL + "L";
+      return Math.round(initNum * galToL * 100) / 100 + "L";
     } else if (initUnit == "lbs") {
-      return initNum * lbsToKg + "kg";
+      return Math.round(initNum * lbsToKg * 100) / 100 + "kg";
     } else if (initUnit == "mi") {
-      return initNum * miToKm + "km";
+      return Math.round(initNum * miToKm * 100) / 100 + "km";
     } else if (initUnit == "l") {
-      return initNum / galToL + "gal";
+      return Math.round((initNum / galToL) * 100) / 100 + "gal";
     } else if (initUnit == "kg") {
-      return initNum / lbsToKg + "lbs";
+      return Math.round((initNum / lbsToKg) * 100) / 100 + "lbs";
     } else if (initUnit == "km") {
-      return initNum / miToKm + "mi";
+      return Math.round((initNum / miToKm) * 100) / 100 + "mi";
     } else {
       throw new Error("Unit not allowed");
     }

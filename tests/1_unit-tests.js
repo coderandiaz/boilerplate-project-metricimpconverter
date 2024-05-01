@@ -40,7 +40,7 @@ suite('Unit Test Suite', function(){
     });
     test('convertHandler should correctly default to a numerical input of 1 when no numerical input is provided.', function (done) {
         let testInput = "lbs";
-        let testOutput = "0.453592kg";
+        let testOutput = "0.45kg";
         let inputNumber = convertHandler.getNum(testInput);
         let inputUnit = convertHandler.getUnit(testInput);
         let output = convertHandler.convert(inputNumber, inputUnit);
