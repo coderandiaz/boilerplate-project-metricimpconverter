@@ -12,9 +12,17 @@ module.exports = function (app) {
 
     let number = convertHandler.getNum(input);
     let unit = convertHandler.getUnit(input);
-    let result = convertHandler.convert(number, unit);
-    
-    res.send(result);
+    if (number == "invalid number" && unit == "invalid unit") {
+      res.send("invalid number and unit");
+    } else if (number == "invalid number") {
+      res.send("invalid number");
+    } else if (unit == "invalid unit") {
+      res.send("invalid unit");
+    } else {
+      let result = convertHandler.convert(number, unit);
+      res.send(`${number} ${unit} converts to ${result}`)
+      // res.send(result);
+    }
   });
 
   app.get('/api/convert', (req, res) => {

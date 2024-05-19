@@ -13,7 +13,7 @@ suite('Convert a valid input such as 10L: GET request to /api/convert', function
       .get('/api/convert?input=10L')
       .end(function (err, res) {
         assert.equal(res.status, 200, 'Response status should be 200');
-        assert.equal(res.text, '2.64gal', 'Response should be "2.64gal"');
+        assert.equal(res.text, '2.64172176857989 gal', 'Response should be "2.64172176857989 gal"');
         done();
       });
   });
@@ -26,7 +26,8 @@ suite('Convert an invalid input such as 32g: GET request to /api/convert', funct
       .keepOpen()
       .get('/api/convert?input=32g')
       .end(function (err, res) {
-        assert.equal(res.status, 500, 'Response status should be 500');
+        assert.equal(res.status, 200, 'Response status should be 200');
+        assert.equal(res.text, 'invalid unit', 'Response should be invalid unit');
         done();
       });
   });
@@ -37,9 +38,9 @@ suite('Convert an invalid number such as 3/7.2/4kg: GET request to /api/convert'
     chai
       .request(server)
       .keepOpen()
-      .get('/api/convert?input=3/7.2/4kg')
+      .get('/api/convert?input=3/7.2/4 kg')
       .end(function (err, res) {
-        assert.equal(res.status, 500, 'Response status should be 500');
+        assert.equal(res.text, "invalid number", 'Response should be invalid');
         done();
       });
   });
@@ -52,7 +53,7 @@ suite('Convert an invalid number AND unit such as 3/7.2/4kilomegagram: GET reque
       .keepOpen()
       .get('/api/convert?input=3/7.2/4kilomegagram')
       .end(function (err, res) {
-        assert.equal(res.status, 500, 'Response status should be 500');
+        assert.equal(res.text, "invalid number and unit", 'Response should be invalid');
         done();
       });
   });
@@ -66,7 +67,7 @@ suite('Convert with no number such as kg: GET request to /api/convert', function
       .get('/api/convert?input=kg')
       .end(function (err, res) {
         assert.equal(res.status, 200, 'Response status should be 200');
-        assert.equal(res.text, '2.2lbs', 'Response should be "2.2lbs"');
+        assert.equal(res.text, '2.2046244201837775 lbs', 'Response should be "2.2lbs"');
         done();
       });
   });

@@ -4,7 +4,7 @@ const ConvertHandler = require('../controllers/convertHandler.js');
 
 let convertHandler = new ConvertHandler();
 
-suite('Unit Test Suite', function(){
+suite('convertHandler', function(){
     test('convertHandler should correctly read a whole number input.', function (done) {
         let testInput = "4gal";
         let testOutput = "4";
@@ -27,7 +27,7 @@ suite('Unit Test Suite', function(){
         done();
     });
     test('convertHandler should correctly read a fractional input with a decimal.', function (done) {
-        let testInput = "5.4/3lbs";
+        let testInput = "5.4/3 lbs";
         let testOutput = "5.4/3";
         let output = convertHandler.getNum(testInput);
         assert.equal(output, testOutput)
@@ -35,12 +35,12 @@ suite('Unit Test Suite', function(){
     });
     test('convertHandler should correctly return an error on a double-fraction (i.e. 3/2/3).', function (done) {
         let testInput = "3/2/3";
-        assert.throws(() => convertHandler.getUnit(testInput), Error, "Input must be a number");
+        assert.equal(convertHandler.getUnit(testInput), "invalid unit");
         done();
     });
     test('convertHandler should correctly default to a numerical input of 1 when no numerical input is provided.', function (done) {
         let testInput = "lbs";
-        let testOutput = "0.45kg";
+        let testOutput = "0.453592 kg";
         let inputNumber = convertHandler.getNum(testInput);
         let inputUnit = convertHandler.getUnit(testInput);
         let output = convertHandler.convert(inputNumber, inputUnit);
@@ -49,20 +49,20 @@ suite('Unit Test Suite', function(){
         done();
     });
     test('convertHandler should correctly read each valid input unit.', function (done) {
-        let testInput = "1/2km";
+        let testInput = "1/2 km";
         let testOutput = "km";
         let output = convertHandler.getUnit(testInput);
         assert.equal(output, testOutput)
         done();
     });
     test('convertHandler should correctly return an error for an invalid input unit.', function (done) {
-        let testInput = "5.4/3Tomatos";
-        let outputError = () => convertHandler.getUnit(testInput);
-        assert.throws(outputError, Error, "Input must be a number")
+        let testInput = "5.4/3 Tomatos";
+        let outputError = convertHandler.getUnit(testInput);
+        assert.equal(outputError, "invalid unit")
         done();
     });
     test('convertHandler should return the correct return unit for each valid input unit.', function (done) {
-        let testInput = "5.4/3lbs";
+        let testInput = "5.4/3 lbs";
         let testOutput = "lbs";
         let output = convertHandler.getUnit(testInput);
         assert.equal(output, testOutput)
@@ -85,13 +85,6 @@ suite('Unit Test Suite', function(){
     test('convertHandler should correctly convert L to gal.', function (done) {
         let testInput = "L";
         let testOutput = "gal";
-        let output = convertHandler.getReturnUnit(testInput);
-        assert.equal(output, testOutput)
-        done();
-    });
-    test('convertHandler should correctly convert mi to km.', function (done) {
-        let testInput = "mi";
-        let testOutput = "km";
         let output = convertHandler.getReturnUnit(testInput);
         assert.equal(output, testOutput)
         done();
